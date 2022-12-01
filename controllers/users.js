@@ -25,6 +25,9 @@ module.exports.getUser = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(404).send({ message: 'Пользователь не найден' });
       }
+      if (err.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
       return res.status(500).send({ message: err.message });
     });
 };
@@ -41,6 +44,9 @@ module.exports.updateProfile = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(404).send({ message: 'Пользователь не найден' });
       }
+      if (err.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
       return res.status(500).send({ message: err.message });
     });
 };
@@ -56,6 +62,9 @@ module.exports.updateAvatar = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(404).send({ message: 'Пользователь не найден' });
+      }
+      if (err.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
       }
       return res.status(500).send({ message: err.message });
     });
