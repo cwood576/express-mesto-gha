@@ -33,6 +33,9 @@ module.exports.getUser = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
+      if (err.errors.about.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
       return res.status(500).send({ message: err.message });
     });
 };
@@ -57,7 +60,10 @@ module.exports.updateProfile = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
-      return res.status(500).send({ message: err.message });
+      if (err.errors.about.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
+      return res.status(500).send({ err });
     });
 };
 
@@ -79,6 +85,9 @@ module.exports.updateAvatar = (req, res) => {
         return res.status(400).send({ message: 'Пользователь не найден' });
       }
       if (err.name === 'ValidatorError') {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
+      if (err.errors.about.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
       return res.status(500).send({ message: err.message });
