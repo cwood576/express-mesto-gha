@@ -20,7 +20,12 @@ module.exports.postUser = (req, res) => {
 
 module.exports.getUser = (req, res) => {
   Users.findById(req.params.id)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        return res.status(404).send({ message: 'Пользователь не найден' });
+      }
+      return res.send({ data: user });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Пользователь не найден' });
@@ -39,7 +44,12 @@ module.exports.updateProfile = (req, res) => {
     runValidators: true,
     upsert: true,
   })
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        return res.status(404).send({ message: 'Пользователь не найден' });
+      }
+      return res.send({ data: user });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Пользователь не найден' });
@@ -58,7 +68,12 @@ module.exports.updateAvatar = (req, res) => {
     runValidators: true,
     upsert: true,
   })
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        return res.status(404).send({ message: 'Пользователь не найден' });
+      }
+      return res.send({ data: user });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Пользователь не найден' });
