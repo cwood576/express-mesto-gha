@@ -37,7 +37,10 @@ module.exports.deleteCard = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
-      if (err.errors.about.name === 'ValidatorError') {
+      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
+      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
       return res.status(500).send({ message: err.message });
@@ -59,7 +62,10 @@ module.exports.deleteLike = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
-      if (err.errors.about.name === 'ValidatorError') {
+      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
+      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
       return res.status(500).send({ message: err.message });
@@ -81,7 +87,10 @@ module.exports.likeCard = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
-      if (err.errors.about.name === 'ValidatorError') {
+      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
+        return res.status(400).send({ message: 'Введены некорректные данные' });
+      }
+      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
       return res.status(500).send({ message: err.message });
