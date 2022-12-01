@@ -22,7 +22,7 @@ module.exports.deleteCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Запись не найдена' });
+        return res.status(400).send({ message: 'Запись не найдена' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
@@ -36,7 +36,7 @@ module.exports.deleteLike = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Запись не найдена' });
+        return res.status(400).send({ message: 'Запись не найдена' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
@@ -50,7 +50,7 @@ module.exports.likeCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Запись не найдена' });
+        return res.status(400).send({ message: 'Запись не найдена' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
