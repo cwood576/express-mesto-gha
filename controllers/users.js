@@ -63,7 +63,7 @@ module.exports.updateProfile = (req, res) => {
       if (err.errors.about.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
       }
-      return res.status(500).send({ err });
+      return res.status(500).send({ message: err.message });
     });
 };
 
