@@ -23,7 +23,7 @@ module.exports.getUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(400).send({ message: 'Пользователь не найден' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
@@ -42,7 +42,7 @@ module.exports.updateProfile = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(400).send({ message: 'Пользователь не найден' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
@@ -61,7 +61,7 @@ module.exports.updateAvatar = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(400).send({ message: 'Пользователь не найден' });
       }
       if (err.name === 'ValidatorError') {
         return res.status(400).send({ message: 'Введены некорректные данные' });
