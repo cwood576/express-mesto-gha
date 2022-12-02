@@ -1,9 +1,13 @@
 const Users = require('../models/users');
 
+const uncorrectData = 400;
+const notFound = 404;
+const defaultErr = 500;
+
 module.exports.getUsers = (req, res) => {
   Users.find({})
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(() => res.status(defaultErr).send({ message: 'Произошла ошибка' }));
 };
 
 module.exports.postUser = (req, res) => {
@@ -11,10 +15,10 @@ module.exports.postUser = (req, res) => {
   Users.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err._message === 'users validation failed') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
+      if (err.name === 'ValidatorError') {
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка' });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -22,24 +26,15 @@ module.exports.getUser = (req, res) => {
   Users.findById(req.params.id)
     .then((user) => {
       if (user === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Пользователь не найден' });
       }
       return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Пользователь не найден' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -51,24 +46,18 @@ module.exports.updateProfile = (req, res) => {
   })
     .then((user) => {
       if (user === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Пользователь не найден' });
       }
       return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Пользователь не найден' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
       if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -80,23 +69,17 @@ module.exports.updateAvatar = (req, res) => {
   })
     .then((user) => {
       if (user === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Пользователь не найден' });
       }
       return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Пользователь не найден' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
       if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };

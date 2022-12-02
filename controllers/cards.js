@@ -1,24 +1,28 @@
 const Cards = require('../models/cards');
 
+const uncorrectData = 400;
+const notFound = 404;
+const defaultErr = 500;
+
 module.exports.getCards = (req, res) => {
   Cards.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(() => res.status(defaultErr).send({ message: 'Произошла ошибка' }));
 };
 module.exports.postCard = (req, res) => {
   const { name, link } = req.body;
   Cards.create({ name, link, owner: req.user._id })
     .then((card) => {
       if (card === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Карточка не найдена' });
       }
       return res.send({ data: card });
     })
     .catch((err) => {
-      if (err._message === 'cards validation failed') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
+      if (err.name === 'ValidatorError') {
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка' });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -26,24 +30,15 @@ module.exports.deleteCard = (req, res) => {
   Cards.findByIdAndRemove(req.params.id)
     .then((card) => {
       if (card === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Карточка не найдена' });
       }
       return res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Запись не найдена' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -51,24 +46,15 @@ module.exports.deleteLike = (req, res) => {
   Cards.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
     .then((card) => {
       if (card === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Карточка не найдена' });
       }
       return res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Запись не найдена' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -76,23 +62,14 @@ module.exports.likeCard = (req, res) => {
   Cards.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
     .then((card) => {
       if (card === null) {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res.status(notFound).send({ message: 'Карточка не найдена' });
       }
       return res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Запись не найдена' });
+        return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.name ? err.errors.name.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.errors.about ? err.errors.about.name === 'ValidatorError' : false) {
-        return res.status(400).send({ message: 'Введены некорректные данные' });
-      }
-      return res.status(500).send({ message: err.message });
+      return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
