@@ -13,5 +13,4 @@ router.delete('/cards/:cardId/likes', deleteLike);
 router.put('/cards/:cardId/likes', likeCard);
 router.delete('/cards/:id', deleteCard);
 
-
 module.exports = router;
