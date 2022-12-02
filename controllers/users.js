@@ -18,6 +18,9 @@ module.exports.postUser = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
+      if (err.name === 'ValidationError') {
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
+      }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
@@ -57,6 +60,9 @@ module.exports.updateProfile = (req, res) => {
       if (err.name === 'ValidatorError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
+      if (err.name === 'ValidationError') {
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
+      }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
     });
 };
@@ -78,6 +84,9 @@ module.exports.updateAvatar = (req, res) => {
         return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
       if (err.name === 'ValidatorError') {
+        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
+      }
+      if (err.name === 'ValidationError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
