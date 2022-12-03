@@ -15,10 +15,8 @@ module.exports.postUser = (req, res) => {
   Users.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'ValidatorError') {
-        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.name === 'ValidationError') {
+      // Добавляем два варианта имени иначе почти всегда будет использоваться стандартная ошибка
+      if (err.name === 'ValidatorError' || err.name === 'ValidationError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
@@ -57,10 +55,8 @@ module.exports.updateProfile = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.name === 'ValidationError') {
+      // Добавляем два варианта имени иначе почти всегда будет использоваться стандартная ошибка
+      if (err.name === 'ValidatorError' || err.name === 'ValidationError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
@@ -83,10 +79,8 @@ module.exports.updateAvatar = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(uncorrectData).send({ message: 'Некорректный ID' });
       }
-      if (err.name === 'ValidatorError') {
-        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.name === 'ValidationError') {
+      // Добавляем два варианта имени иначе почти всегда будет использоваться стандартная ошибка
+      if (err.name === 'ValidatorError' || err.name === 'ValidationError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });

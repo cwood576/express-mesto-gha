@@ -19,10 +19,8 @@ module.exports.postCard = (req, res) => {
       return res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidatorError') {
-        return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
-      }
-      if (err.name === 'ValidationError') {
+      // Добавляем два варианта имени иначе почти всегда будет использоваться стандартная ошибка
+      if (err.name === 'ValidatorError' || err.name === 'ValidationError') {
         return res.status(uncorrectData).send({ message: 'Введены некорректные данные' });
       }
       return res.status(defaultErr).send({ message: 'Произошла ошибка' });
